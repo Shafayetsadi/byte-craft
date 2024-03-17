@@ -1,6 +1,4 @@
-#include <cstring>
-#include <ios>
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
 const int N = 3e5 + 10;
@@ -17,7 +15,8 @@ struct SegmentTree {
       int mid = (lo + hi) / 2;
       build(lo, mid, 2 * pos + 1);
       build(mid + 1, hi, 2 * pos + 2);
-      tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
+      tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2]; // range sum
+      // tree[pos] = max(tree[2 * pos + 1], tree[2 * pos + 2]); // range max
     }
   }
 
@@ -33,6 +32,7 @@ struct SegmentTree {
       update(lo, mid, 2 * pos + 1, index, val);
       update(mid + 1, hi, 2 * pos + 2, index, val);
       tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
+      // tree[pos] = max(tree[2 * pos + 1], tree[2 * pos + 2]);
     }
   }
 
@@ -47,6 +47,8 @@ struct SegmentTree {
     int mid = (lo + hi) / 2;
     return query(lo, mid, l, r, 2 * pos + 1) +
            query(mid + 1, hi, l, r, 2 * pos + 2);
+    // return max(query(lo, mid, l, r, 2 * pos + 1),
+    //            query(mid + 1, hi, l, r, 2 * pos + 2));
   }
 } segTree;
 
@@ -62,6 +64,8 @@ int32_t main() {
   cout << segTree.query(0, n - 1, 1, 2, 0) << endl;
   cout << segTree.query(0, n - 1, 2, 3, 0) << endl;
   cout << segTree.query(0, n - 1, 0, n - 1, 0) << endl;
+  segTree.update(0, n - 1, 0, 2, 50);
+  cout << segTree.query(0, n - 1, 1, 2, 0) << endl;
   cout << "Hello World!" << endl;
   return 0;
 }
